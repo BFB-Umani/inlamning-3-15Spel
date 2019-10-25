@@ -27,7 +27,7 @@ public class Main extends Application {
     Button btn13 = new Button("13");
     Button btn14 = new Button("14");
     Button btn15 = new Button("15");
-    Button btn16 = new Button("TOM");
+    Button btn16 = new Button("");
 
 
 
@@ -82,7 +82,7 @@ public class Main extends Application {
         btn13.setOnAction(this::handle);
         btn14.setOnAction(this::handle);
         btn15.setOnAction(this::handle);
-        Scene scene = new Scene(gridScene, 460,460);
+        Scene scene = new Scene(gridScene, 430,430);
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -90,20 +90,19 @@ public class Main extends Application {
     }
     public void handle(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
-        System.out.println(gridScene.getColumnIndex(button));
-        if(gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button) - 1) {
+        if(gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button) -1 && gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button)) {
             gridScene.setColumnIndex(btn16, gridScene.getColumnIndex(button));
             gridScene.setColumnIndex(button, gridScene.getColumnIndex(button) - 1);
         }
-        else if(gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button) + 1) {
+        else if(gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button) + 1 && gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button)) {
             gridScene.setColumnIndex(btn16, gridScene.getColumnIndex(button));
             gridScene.setColumnIndex(button, gridScene.getColumnIndex(button) + 1);
         }
-        else if(gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) + 1) {
+        else if(gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) + 1 && gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button)) {
             gridScene.setRowIndex(btn16, gridScene.getRowIndex(button));
             gridScene.setRowIndex(button, gridScene.getRowIndex(button) + 1);
         }
-        else if(gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) - 1) {
+        else if(gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) - 1 && gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button)) {
             gridScene.setRowIndex(btn16, gridScene.getRowIndex(button));
             gridScene.setRowIndex(button, gridScene.getRowIndex(button) - 1);
         }
