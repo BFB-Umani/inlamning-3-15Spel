@@ -122,7 +122,7 @@ public class Main extends Application {
         btn14.setOnMouseClicked(this::handle);
         btn15.setOnMouseClicked(this::handle);
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Sliding puzzle");
         primaryStage.setScene(scene);
         primaryStage.show();
 
