@@ -14,10 +14,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -43,6 +41,9 @@ public class Main extends Application {
     Image button13 = new Image("file:button_13.png");
     Image button14 = new Image("file:button_14.png");
     Image button15 = new Image("file:button_15.png");
+    Image quitButtonImage = new Image("file:Quit.png");
+    Image newGameButtonImage = new Image ("file:NewGame.png");
+    Image youWonImage = new Image("file:uwin.png");
     ImageView background = new ImageView(bg);
     ImageView b1 = new ImageView(button1);
     ImageView b2 = new ImageView(button2);
@@ -59,6 +60,9 @@ public class Main extends Application {
     ImageView b13 = new ImageView(button13);
     ImageView b14 = new ImageView(button14);
     ImageView b15 = new ImageView(button15);
+    ImageView quitButtonImageView = new ImageView(quitButtonImage);
+    ImageView newGameImageView = new ImageView(newGameButtonImage);
+    ImageView youWonImageView = new ImageView(youWonImage);
     Label btn1 = new Label("", b1);
     Label btn2 = new Label("", b2);
     Label btn3 = new Label("", b3);
@@ -75,10 +79,11 @@ public class Main extends Application {
     Label btn14 = new Label("", b14);
     Label btn15 = new Label("", b15);
     Label btn16 = new Label("");
+    Label youWonLabel = new Label("", youWonImageView);
     Button newGame = new Button("New game");
     Button winGameButton = new Button("win game!");
-    Button quit = new Button("Quit");
-    Button winNewGame = new Button("New game");
+    Label quitButton = new Label("", quitButtonImageView);
+    Label winNewGame = new Label("", newGameImageView);
     List buttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
     List correctbuttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
 
@@ -189,24 +194,23 @@ public class Main extends Application {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != j && gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != i) {
-                    win = false;
-                } else {
-                    win = true;
+                    return false;
                 }
                 buttonIndex++;
             }
         }
-        return win;
+        return true;
     }
 
     private void winGameMessage() {
 
         Stage dialogStage = new Stage();
-        VBox vbox = new VBox(new Text("Grattis, du vann!"), quit, winNewGame);
-        quit.setOnAction(actionEvent -> {
+        VBox vbox = new VBox(youWonLabel, quitButton, winNewGame);
+
+        quitButton.setOnMouseClicked(actionEvent -> {
             System.exit(0);
         });
-        winNewGame.setOnAction(actionEvent -> {
+        winNewGame.setOnMouseClicked(actionEvent -> {
             Collections.shuffle(buttonList);
             int buttonIndex = 0;
             for (int i = 0; i < 4; i++) {
