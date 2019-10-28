@@ -3,8 +3,8 @@ package sample;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,10 +12,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +41,9 @@ public class Main extends Application {
     Image button13 = new Image("file:button_13.png");
     Image button14 = new Image("file:button_14.png");
     Image button15 = new Image("file:button_15.png");
+    Image quitButtonImage = new Image("file:Quit.png");
+    Image newGameButtonImage = new Image("file:NewGame.png");
+    Image youWonImage = new Image("file:YouWon.png");
     ImageView background = new ImageView(bg);
     ImageView b1 = new ImageView(button1);
     ImageView b2 = new ImageView(button2);
@@ -57,6 +60,9 @@ public class Main extends Application {
     ImageView b13 = new ImageView(button13);
     ImageView b14 = new ImageView(button14);
     ImageView b15 = new ImageView(button15);
+    ImageView quitButtonImageView = new ImageView(quitButtonImage);
+    ImageView newGameImageView = new ImageView(newGameButtonImage);
+    ImageView youWonImageView = new ImageView(youWonImage);
     Label btn1 = new Label("", b1);
     Label btn2 = new Label("", b2);
     Label btn3 = new Label("", b3);
@@ -73,8 +79,11 @@ public class Main extends Application {
     Label btn14 = new Label("", b14);
     Label btn15 = new Label("", b15);
     Label btn16 = new Label("");
-    Button newGame = new Button("new game");
+    Label youWonLabel = new Label("", youWonImageView);
+    Button newGame = new Button("New game");
     Button winGameButton = new Button("win game!");
+    Label quitButton = new Label("", quitButtonImageView);
+    Label winNewGame = new Label("", newGameImageView);
     List buttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
     List correctbuttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
 
@@ -84,6 +93,7 @@ public class Main extends Application {
         root.getChildren().addAll(background);
         root.getChildren().addAll(gridScene);
         root.getChildren().addAll(newGamePane);
+
         newGamePane.setAlignment(Pos.TOP_RIGHT);
         newGamePane.getChildren().add(newGame);
         newGamePane.getChildren().add(winGameButton);
@@ -108,7 +118,6 @@ public class Main extends Application {
         btn14.setOnMouseClicked(this::handle);
         btn15.setOnMouseClicked(this::handle);
         winGameButton.setOnAction(actionEvent -> {
-
             int buttonIndex = 0;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
@@ -117,20 +126,15 @@ public class Main extends Application {
                     buttonIndex++;
                 }
             }
+            boolean winGame = winGameCalculation();
+            if (winGame) {
+                winGameMessage();
+            }
         });
 
 
         newGame.setOnAction(actionEvent -> {
-            Collections.shuffle(buttonList);
-            int buttonIndex = 0;
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    gridScene.setColumnIndex((Label) buttonList.get(buttonIndex), j);
-                    gridScene.setRowIndex((Label) buttonList.get(buttonIndex), i);
-                    buttonIndex++;
-                }
-            }
-
+            shuffleNewGame();
         });
 
         Scene scene = new Scene(root);
@@ -168,22 +172,57 @@ public class Main extends Application {
             gridScene.setRowIndex(btn16, gridScene.getRowIndex(button));
             gridScene.setRowIndex(button, gridScene.getRowIndex(button) - 1);
         }
-        winGame();
+        boolean winGame = winGameCalculation();
+        if (winGame) {
+            winGameMessage();
+        }
     }
 
-    private boolean winGame(){
-            int buttonIndex = 0;
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    if (gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) != j && gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) != i ){
-                        return false;
-                    } else {
-                        return true;
-                    }
+    private boolean winGameCalculation() {
+        int buttonIndex = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != j && gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != i) {
+                    return false;
                 }
+                buttonIndex++;
             }
-            return false;
+        }
+        return true;
     }
+
+    private void winGameMessage() {
+
+        Stage dialogStage = new Stage();
+        HBox hBox = new HBox(youWonLabel, quitButton, winNewGame);
+        quitButton.setCursor(Cursor.HAND);
+        winNewGame.setCursor(Cursor.HAND);
+
+        quitButton.setOnMouseClicked(actionEvent -> {
+            System.exit(0);
+        });
+        winNewGame.setOnMouseClicked(actionEvent -> {
+            shuffleNewGame();
+            dialogStage.close();
+        });
+
+        dialogStage.setScene(new Scene(hBox));
+        dialogStage.show();
+
+    }
+
+    private void shuffleNewGame() {
+        Collections.shuffle(buttonList);
+        int buttonIndex = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                gridScene.setColumnIndex((Label) buttonList.get(buttonIndex), j);
+                gridScene.setRowIndex((Label) buttonList.get(buttonIndex), i);
+                buttonIndex++;
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         launch(args);
