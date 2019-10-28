@@ -171,17 +171,18 @@ public class Main extends Application {
         winGame();
     }
 
-    private void winGame(){
+    private boolean winGame(){
             int buttonIndex = 0;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    if (gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) == j && gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) == i ){
-                        JOptionPane.showMessageDialog(null, "Du vann!");
+                    if (gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) != j && gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) != i ){
+                        return false;
+                    } else {
+                        return true;
                     }
-                    buttonIndex++;
-
                 }
             }
+            return false;
     }
 
     public static void main(String[] args) {
