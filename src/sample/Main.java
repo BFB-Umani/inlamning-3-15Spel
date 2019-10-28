@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    // test test funkar detta?
     Group root = new Group();
     Image bg = new Image("file:background_game_board.jpg");
     Image button1 = new Image("file:button_1.jpg");
