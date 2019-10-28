@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,6 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -73,8 +75,10 @@ public class Main extends Application {
     Label btn14 = new Label("", b14);
     Label btn15 = new Label("", b15);
     Label btn16 = new Label("");
-    Button newGame = new Button("new game");
+    Button newGame = new Button("New game");
     Button winGameButton = new Button("win game!");
+    Button quit = new Button("Quit");
+    Button winNewGame = new Button("New game");
     List buttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
     List correctbuttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
 
@@ -84,6 +88,7 @@ public class Main extends Application {
         root.getChildren().addAll(background);
         root.getChildren().addAll(gridScene);
         root.getChildren().addAll(newGamePane);
+
         newGamePane.setAlignment(Pos.TOP_RIGHT);
         newGamePane.getChildren().add(newGame);
         newGamePane.getChildren().add(winGameButton);
@@ -116,6 +121,10 @@ public class Main extends Application {
                     gridScene.setRowIndex((Label) correctbuttonList.get(buttonIndex), i);
                     buttonIndex++;
                 }
+            }
+            boolean winGame = winGameCalculation();
+            if (winGame) {
+                winGameMessage();
             }
         });
 
@@ -168,21 +177,56 @@ public class Main extends Application {
             gridScene.setRowIndex(btn16, gridScene.getRowIndex(button));
             gridScene.setRowIndex(button, gridScene.getRowIndex(button) - 1);
         }
-        winGame();
+        boolean winGame = winGameCalculation();
+        if (winGame) {
+            winGameMessage();
+        }
     }
 
-    private void winGame(){
+    private boolean winGameCalculation() {
+        int buttonIndex = 0;
+        boolean win = false;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != j && gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != i) {
+                    win = false;
+                } else {
+                    win = true;
+                }
+                buttonIndex++;
+            }
+        }
+        return win;
+    }
+
+    private void winGameMessage() {
+
+        Stage dialogStage = new Stage();
+        VBox vbox = new VBox(new Text("Grattis, du vann!"), quit, winNewGame);
+        quit.setOnAction(actionEvent -> {
+            System.exit(0);
+        });
+        winNewGame.setOnAction(actionEvent -> {
+            Collections.shuffle(buttonList);
             int buttonIndex = 0;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    if (gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) == j && gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) == i ){
-                        JOptionPane.showMessageDialog(null, "Du vann!");
-                    }
+                    gridScene.setColumnIndex((Label) buttonList.get(buttonIndex), j);
+                    gridScene.setRowIndex((Label) buttonList.get(buttonIndex), i);
                     buttonIndex++;
-
                 }
             }
+            dialogStage.close();
+        });
+
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(15));
+
+        dialogStage.setScene(new Scene(vbox));
+        dialogStage.show();
+
     }
+
 
     public static void main(String[] args) {
         launch(args);
