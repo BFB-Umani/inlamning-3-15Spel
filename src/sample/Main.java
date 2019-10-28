@@ -121,8 +121,8 @@ public class Main extends Application {
             int buttonIndex = 0;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    gridScene.setColumnIndex((Label) correctbuttonList.get(buttonIndex), j);
                     gridScene.setRowIndex((Label) correctbuttonList.get(buttonIndex), i);
+                    gridScene.setColumnIndex((Label) correctbuttonList.get(buttonIndex), j);
                     buttonIndex++;
                 }
             }
@@ -182,7 +182,7 @@ public class Main extends Application {
         int buttonIndex = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != j && gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != i) {
+                if (gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != j || gridScene.getRowIndex((Label) correctbuttonList.get(buttonIndex)) != i) {
                     return false;
                 }
                 buttonIndex++;
