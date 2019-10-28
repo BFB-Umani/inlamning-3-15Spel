@@ -161,15 +161,6 @@ public class Main extends Application {
 
     private void winGame(){
 
-
-//            for (int i = 0; i < 4; i++) {
-//                for (int j = 0; j < 4; j++) {
-//                    if (buttonList.equals(correctbuttonList)){
-//                        JOptionPane.showMessageDialog(null, "Du vann!");
-//                    }
-//
-//                }
-//            }
     }
 
     public static void main(String[] args) {
