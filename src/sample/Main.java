@@ -74,6 +74,7 @@ public class Main extends Application {
     Label btn15 = new Label("", b15);
     Label btn16 = new Label("");
     Button newGame = new Button("new game");
+    Button winGameButton = new Button("win game!");
     List buttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
     List correctbuttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
 
@@ -85,6 +86,7 @@ public class Main extends Application {
         root.getChildren().addAll(newGamePane);
         newGamePane.setAlignment(Pos.TOP_RIGHT);
         newGamePane.getChildren().add(newGame);
+        newGamePane.getChildren().add(winGameButton);
         gridScene.setHgap(2);
         gridScene.setVgap(2);
         gridScene.setPadding(new Insets(90, 0, 0, 150));
@@ -105,6 +107,17 @@ public class Main extends Application {
         btn13.setOnMouseClicked(this::handle);
         btn14.setOnMouseClicked(this::handle);
         btn15.setOnMouseClicked(this::handle);
+        winGameButton.setOnAction(actionEvent -> {
+
+            int buttonIndex = 0;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    gridScene.setColumnIndex((Label) correctbuttonList.get(buttonIndex), j);
+                    gridScene.setRowIndex((Label) correctbuttonList.get(buttonIndex), i);
+                    buttonIndex++;
+                }
+            }
+        });
 
 
         newGame.setOnAction(actionEvent -> {
@@ -155,21 +168,20 @@ public class Main extends Application {
             gridScene.setRowIndex(btn16, gridScene.getRowIndex(button));
             gridScene.setRowIndex(button, gridScene.getRowIndex(button) - 1);
         }
-//        buttonList.set(buttonList.indexOf(btn16), button);
         winGame();
     }
 
     private void winGame(){
+            int buttonIndex = 0;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) == j && gridScene.getColumnIndex((Label)correctbuttonList.get(buttonIndex)) == i ){
+                        JOptionPane.showMessageDialog(null, "Du vann!");
+                    }
+                    buttonIndex++;
 
-
-//            for (int i = 0; i < 4; i++) {
-//                for (int j = 0; j < 4; j++) {
-//                    if (buttonList.equals(correctbuttonList)){
-//                        JOptionPane.showMessageDialog(null, "Du vann!");
-//                    }
-//
-//                }
-//            }
+                }
+            }
     }
 
     public static void main(String[] args) {
