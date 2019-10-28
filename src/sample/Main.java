@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,6 +14,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+
+import javax.swing.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 
 public class Main extends Application {
     Group root = new Group();
@@ -50,26 +57,28 @@ public class Main extends Application {
     ImageView b13 = new ImageView(button13);
     ImageView b14 = new ImageView(button14);
     ImageView b15 = new ImageView(button15);
-    Label btn1 = new Label("",b1);
-    Label btn2 = new Label("",b2);
-    Label btn3 = new Label("",b3);
-    Label btn4 = new Label("",b4);
-    Label btn5 = new Label("",b5);
-    Label btn6 = new Label("",b6);
-    Label btn7 = new Label("",b7);
-    Label btn8 = new Label("",b8);
-    Label btn9 = new Label("",b9);
-    Label btn10 = new Label("",b10);
-    Label btn11 = new Label("",b11);
-    Label btn12 = new Label("",b12);
-    Label btn13 = new Label("",b13);
-    Label btn14 = new Label("",b14);
-    Label btn15 = new Label("",b15);
+    Label btn1 = new Label("", b1);
+    Label btn2 = new Label("", b2);
+    Label btn3 = new Label("", b3);
+    Label btn4 = new Label("", b4);
+    Label btn5 = new Label("", b5);
+    Label btn6 = new Label("", b6);
+    Label btn7 = new Label("", b7);
+    Label btn8 = new Label("", b8);
+    Label btn9 = new Label("", b9);
+    Label btn10 = new Label("", b10);
+    Label btn11 = new Label("", b11);
+    Label btn12 = new Label("", b12);
+    Label btn13 = new Label("", b13);
+    Label btn14 = new Label("", b14);
+    Label btn15 = new Label("", b15);
     Label btn16 = new Label("");
     Button newGame = new Button("new game");
+    List buttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
+    List correctbuttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) {
         primaryStage.setResizable(false);
         root.getChildren().addAll(background);
         root.getChildren().addAll(gridScene);
@@ -79,22 +88,7 @@ public class Main extends Application {
         gridScene.setHgap(2);
         gridScene.setVgap(2);
         gridScene.setPadding(new Insets(90, 0, 0, 150));
-        gridScene.add(btn1, 0,0);
-        gridScene.add(btn2, 1,0);
-        gridScene.add(btn3, 2,0);
-        gridScene.add(btn4, 3,0);
-        gridScene.add(btn5, 0,1);
-        gridScene.add(btn6, 1,1);
-        gridScene.add(btn7, 2,1);
-        gridScene.add(btn8, 3,1);
-        gridScene.add(btn9, 0,2);
-        gridScene.add(btn10, 1,2);
-        gridScene.add(btn11, 2,2);
-        gridScene.add(btn12, 3,2);
-        gridScene.add(btn13, 0,3);
-        gridScene.add(btn14, 1,3);
-        gridScene.add(btn15, 2,3);
-        gridScene.add(btn16, 3,3);
+        startGame();
         btn16.setVisible(false);
         btn1.setOnMouseClicked(this::handle);
         btn2.setOnMouseClicked(this::handle);
@@ -112,8 +106,18 @@ public class Main extends Application {
         btn14.setOnMouseClicked(this::handle);
         btn15.setOnMouseClicked(this::handle);
 
+
         newGame.setOnAction(actionEvent -> {
-            System.out.println("add shuffle here");
+            Collections.shuffle(buttonList);
+            int buttonIndex = 0;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    gridScene.setColumnIndex((Label) buttonList.get(buttonIndex), j);
+                    gridScene.setRowIndex((Label) buttonList.get(buttonIndex), i);
+                    buttonIndex++;
+                }
+            }
+
         });
 
         Scene scene = new Scene(root);
@@ -123,24 +127,49 @@ public class Main extends Application {
 
     }
 
+    private void startGame() {
+
+        Collections.shuffle(buttonList);
+        int buttonIndex = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                gridScene.add((Label) buttonList.get(buttonIndex), i, j);
+                buttonIndex++;
+            }
+        }
+
+    }
+
     private void handle(MouseEvent mouseEvent) {
         Label button = (Label) mouseEvent.getSource();
-        if(gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button) -1 && gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button)) {
+        if (gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button) - 1 && gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button)) {
             gridScene.setColumnIndex(btn16, gridScene.getColumnIndex(button));
             gridScene.setColumnIndex(button, gridScene.getColumnIndex(button) - 1);
-        }
-        else if(gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button) + 1 && gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button)) {
+        } else if (gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button) + 1 && gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button)) {
             gridScene.setColumnIndex(btn16, gridScene.getColumnIndex(button));
             gridScene.setColumnIndex(button, gridScene.getColumnIndex(button) + 1);
-        }
-        else if(gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) + 1 && gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button)) {
+        } else if (gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) + 1 && gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button)) {
             gridScene.setRowIndex(btn16, gridScene.getRowIndex(button));
             gridScene.setRowIndex(button, gridScene.getRowIndex(button) + 1);
-        }
-        else if(gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) - 1 && gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button)) {
+        } else if (gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) - 1 && gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button)) {
             gridScene.setRowIndex(btn16, gridScene.getRowIndex(button));
             gridScene.setRowIndex(button, gridScene.getRowIndex(button) - 1);
         }
+//        buttonList.set(buttonList.indexOf(btn16), button);
+        winGame();
+    }
+
+    private void winGame(){
+
+
+//            for (int i = 0; i < 4; i++) {
+//                for (int j = 0; j < 4; j++) {
+//                    if (buttonList.equals(correctbuttonList)){
+//                        JOptionPane.showMessageDialog(null, "Du vann!");
+//                    }
+//
+//                }
+//            }
     }
 
     public static void main(String[] args) {
