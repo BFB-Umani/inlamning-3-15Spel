@@ -14,6 +14,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
+import java.util.Random;
+
 public class Main extends Application {
     Group root = new Group();
     TilePane newGamePane = new TilePane();
@@ -79,22 +81,7 @@ public class Main extends Application {
         gridScene.setHgap(2);
         gridScene.setVgap(2);
         gridScene.setPadding(new Insets(90, 0, 0, 150));
-        gridScene.add(btn1, 0,0);
-        gridScene.add(btn2, 1,0);
-        gridScene.add(btn3, 2,0);
-        gridScene.add(btn4, 3,0);
-        gridScene.add(btn5, 0,1);
-        gridScene.add(btn6, 1,1);
-        gridScene.add(btn7, 2,1);
-        gridScene.add(btn8, 3,1);
-        gridScene.add(btn9, 0,2);
-        gridScene.add(btn10, 1,2);
-        gridScene.add(btn11, 2,2);
-        gridScene.add(btn12, 3,2);
-        gridScene.add(btn13, 0,3);
-        gridScene.add(btn14, 1,3);
-        gridScene.add(btn15, 2,3);
-        gridScene.add(btn16, 3,3);
+
         btn16.setVisible(false);
         btn1.setOnMouseClicked(this::handle);
         btn2.setOnMouseClicked(this::handle);
@@ -114,6 +101,23 @@ public class Main extends Application {
 
         newGame.setOnAction(actionEvent -> {
             System.out.println("add shuffle here");
+            Label[] buttonArray = {btn1,btn2,btn3,btn4,btn8,btn7,btn6,btn5,btn9,btn10,btn11,btn12,btn16,btn15,btn14,btn13};
+            int cl = buttonArray.length;
+            Random rgen = new Random();
+            for (int i = 0; i < cl; i++) {
+                int randomPosition = rgen.nextInt(cl);
+                Label temp = buttonArray[i];
+                buttonArray[i] = buttonArray[randomPosition];
+                buttonArray[randomPosition] = temp;
+            }
+            int buttonIndex = 0;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    gridScene.add(buttonArray[buttonIndex], i,j);
+                    buttonIndex++;
+                }
+
+            }
         });
 
         Scene scene = new Scene(root);
@@ -140,6 +144,7 @@ public class Main extends Application {
         else if(gridScene.getRowIndex(btn16) == gridScene.getRowIndex(button) - 1 && gridScene.getColumnIndex(btn16) == gridScene.getColumnIndex(button)) {
             gridScene.setRowIndex(btn16, gridScene.getRowIndex(button));
             gridScene.setRowIndex(button, gridScene.getRowIndex(button) - 1);
+
         }
     }
 
