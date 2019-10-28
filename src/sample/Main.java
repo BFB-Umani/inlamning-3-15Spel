@@ -64,7 +64,7 @@ public class Main extends Application {
     Label btn14 = new Label("",b14);
     Label btn15 = new Label("",b15);
     Label btn16 = new Label("");
-    Button newGame = new Button("NEW GAME!");
+    Button newGame = new Button("new game");
 
 
 
@@ -74,9 +74,6 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         root.getChildren().addAll(background);
         root.getChildren().addAll(gridScene);
-        root.getChildren().addAll(newGame);
-        newGame.setMinSize(150,10);
-//        newGame.setAlignment();
         gridScene.setHgap(2);
         gridScene.setVgap(2);
         gridScene.setPadding(new Insets(90, 0, 0, 150));
