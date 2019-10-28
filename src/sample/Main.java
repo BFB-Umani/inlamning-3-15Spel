@@ -74,6 +74,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         root.getChildren().addAll(background);
         root.getChildren().addAll(gridScene);
+        root.getChildren().addAll(newGame);
         gridScene.setHgap(2);
         gridScene.setVgap(2);
         gridScene.setPadding(new Insets(90, 0, 0, 150));
