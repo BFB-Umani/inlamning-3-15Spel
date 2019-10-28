@@ -3,6 +3,7 @@ package sample;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,9 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Arrays;
@@ -42,7 +42,7 @@ public class Main extends Application {
     Image button14 = new Image("file:button_14.png");
     Image button15 = new Image("file:button_15.png");
     Image quitButtonImage = new Image("file:Quit.png");
-    Image newGameButtonImage = new Image ("file:NewGame.png");
+    Image newGameButtonImage = new Image("file:NewGame.png");
     Image youWonImage = new Image("file:YouWon.png");
     ImageView background = new ImageView(bg);
     ImageView b1 = new ImageView(button1);
@@ -118,7 +118,6 @@ public class Main extends Application {
         btn14.setOnMouseClicked(this::handle);
         btn15.setOnMouseClicked(this::handle);
         winGameButton.setOnAction(actionEvent -> {
-
             int buttonIndex = 0;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
@@ -135,16 +134,7 @@ public class Main extends Application {
 
 
         newGame.setOnAction(actionEvent -> {
-            Collections.shuffle(buttonList);
-            int buttonIndex = 0;
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    gridScene.setColumnIndex((Label) buttonList.get(buttonIndex), j);
-                    gridScene.setRowIndex((Label) buttonList.get(buttonIndex), i);
-                    buttonIndex++;
-                }
-            }
-
+            shuffleNewGame();
         });
 
         Scene scene = new Scene(root);
@@ -190,7 +180,6 @@ public class Main extends Application {
 
     private boolean winGameCalculation() {
         int buttonIndex = 0;
-        boolean win = false;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != j && gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != i) {
@@ -205,31 +194,33 @@ public class Main extends Application {
     private void winGameMessage() {
 
         Stage dialogStage = new Stage();
-        VBox vbox = new VBox(youWonLabel, quitButton, winNewGame);
-        vbox.setMinSize(500,500);
-        vbox.setVisible(true);
+        HBox hBox = new HBox(youWonLabel, quitButton, winNewGame);
+        quitButton.setCursor(Cursor.HAND);
+        winNewGame.setCursor(Cursor.HAND);
+
         quitButton.setOnMouseClicked(actionEvent -> {
             System.exit(0);
         });
         winNewGame.setOnMouseClicked(actionEvent -> {
-            Collections.shuffle(buttonList);
-            int buttonIndex = 0;
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    gridScene.setColumnIndex((Label) buttonList.get(buttonIndex), j);
-                    gridScene.setRowIndex((Label) buttonList.get(buttonIndex), i);
-                    buttonIndex++;
-                }
-            }
+            shuffleNewGame();
             dialogStage.close();
         });
 
-        vbox.setAlignment(Pos.CENTER);
-        vbox.setPadding(new Insets(15));
-
-        dialogStage.setScene(new Scene(vbox));
+        dialogStage.setScene(new Scene(hBox));
         dialogStage.show();
 
+    }
+
+    private void shuffleNewGame() {
+        Collections.shuffle(buttonList);
+        int buttonIndex = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                gridScene.setColumnIndex((Label) buttonList.get(buttonIndex), j);
+                gridScene.setRowIndex((Label) buttonList.get(buttonIndex), i);
+                buttonIndex++;
+            }
+        }
     }
 
 
