@@ -63,9 +63,6 @@ public class Main extends Application {
     Label btn15 = new Label("",b15);
     Label btn16 = new Label("");
 
-
-
-
     @Override
     public void start(Stage primaryStage){
         primaryStage.setResizable(false);
