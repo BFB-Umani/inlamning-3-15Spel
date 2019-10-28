@@ -43,7 +43,7 @@ public class Main extends Application {
     Image button15 = new Image("file:button_15.png");
     Image quitButtonImage = new Image("file:Quit.png");
     Image newGameButtonImage = new Image ("file:NewGame.png");
-    Image youWonImage = new Image("file:uwin.png");
+    Image youWonImage = new Image("file:YouWon.png");
     ImageView background = new ImageView(bg);
     ImageView b1 = new ImageView(button1);
     ImageView b2 = new ImageView(button2);
@@ -206,7 +206,8 @@ public class Main extends Application {
 
         Stage dialogStage = new Stage();
         VBox vbox = new VBox(youWonLabel, quitButton, winNewGame);
-
+        vbox.setMinSize(500,500);
+        vbox.setVisible(true);
         quitButton.setOnMouseClicked(actionEvent -> {
             System.exit(0);
         });
