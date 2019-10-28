@@ -10,11 +10,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     Group root = new Group();
+    TilePane newGamePane = new TilePane();
+    GridPane gridScene = new GridPane();
     Image bg = new Image("file:background_game_board.jpg");
     Image button1 = new Image("file:button_1.jpg");
     Image button2 = new Image("file:button_2.jpg");
@@ -47,7 +51,6 @@ public class Main extends Application {
     ImageView b13 = new ImageView(button13);
     ImageView b14 = new ImageView(button14);
     ImageView b15 = new ImageView(button15);
-    GridPane gridScene = new GridPane();
     Label btn1 = new Label("",b1);
     Label btn2 = new Label("",b2);
     Label btn3 = new Label("",b3);
@@ -74,7 +77,9 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         root.getChildren().addAll(background);
         root.getChildren().addAll(gridScene);
-        root.getChildren().addAll(newGame);
+        root.getChildren().addAll(newGamePane);
+        newGamePane.setAlignment(Pos.TOP_RIGHT);
+        newGamePane.getChildren().add(newGame);
         gridScene.setHgap(2);
         gridScene.setVgap(2);
         gridScene.setPadding(new Insets(90, 0, 0, 150));
@@ -110,6 +115,11 @@ public class Main extends Application {
         btn13.setOnMouseClicked(this::handle);
         btn14.setOnMouseClicked(this::handle);
         btn15.setOnMouseClicked(this::handle);
+
+        newGame.setOnAction(actionEvent -> {
+            System.out.println("add shuffle here");
+        });
+
         Scene scene = new Scene(root);
         primaryStage.setTitle("Sliding puzzle");
         primaryStage.setScene(scene);
