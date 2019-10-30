@@ -43,6 +43,7 @@ public class Main extends Application {
     Image button15 = new Image("file:button_15.png");
     Image quitButtonImage = new Image("file:Quit.png");
     Image newGameButtonImage = new Image("file:NewGame.png");
+    Image newGameButtonImage2 = new Image("file:NewGameBoard.png");
     Image youWonImage = new Image("file:YouWon.png");
     ImageView background = new ImageView(bg);
     ImageView b1 = new ImageView(button1);
@@ -62,6 +63,7 @@ public class Main extends Application {
     ImageView b15 = new ImageView(button15);
     ImageView quitButtonImageView = new ImageView(quitButtonImage);
     ImageView newGameImageView = new ImageView(newGameButtonImage);
+    ImageView newGameImageView2 = new ImageView(newGameButtonImage2);
     ImageView youWonImageView = new ImageView(youWonImage);
     Label btn1 = new Label("", b1);
     Label btn2 = new Label("", b2);
@@ -80,12 +82,13 @@ public class Main extends Application {
     Label btn15 = new Label("", b15);
     Label btn16 = new Label("");
     Label youWonLabel = new Label("", youWonImageView);
-    Button newGame = new Button("New game");
+    Label newGame = new Label("", newGameImageView2);
     Button winGameButton = new Button("win game!");
     Label quitButton = new Label("", quitButtonImageView);
     Label winNewGame = new Label("", newGameImageView);
     List buttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
-    List correctbuttonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
+    List correctButtonList = Arrays.asList(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16);
+    int newgamePressed = 0;
 
     @Override
     public void start(Stage primaryStage) {
@@ -94,13 +97,14 @@ public class Main extends Application {
         root.getChildren().addAll(gridScene);
         root.getChildren().addAll(newGamePane);
 
-        newGamePane.setAlignment(Pos.TOP_RIGHT);
+        newGamePane.setAlignment(Pos.TOP_CENTER);
         newGamePane.getChildren().add(newGame);
         newGamePane.getChildren().add(winGameButton);
         gridScene.setHgap(2);
         gridScene.setVgap(2);
         gridScene.setPadding(new Insets(90, 0, 0, 150));
         startGame();
+        winGameButton.setVisible(false);
         btn16.setVisible(false);
         btn1.setOnMouseClicked(this::handle);
         btn2.setOnMouseClicked(this::handle);
@@ -121,8 +125,8 @@ public class Main extends Application {
             int buttonIndex = 0;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    gridScene.setRowIndex((Label) correctbuttonList.get(buttonIndex), i);
-                    gridScene.setColumnIndex((Label) correctbuttonList.get(buttonIndex), j);
+                    gridScene.setRowIndex((Label) correctButtonList.get(buttonIndex), i);
+                    gridScene.setColumnIndex((Label) correctButtonList.get(buttonIndex), j);
                     buttonIndex++;
                 }
             }
@@ -133,11 +137,15 @@ public class Main extends Application {
         });
 
 
-        newGame.setOnAction(actionEvent -> {
+        newGame.setOnMouseClicked(actionEvent -> {
             shuffleNewGame();
+            newgamePressed++;
+            if(newgamePressed == 15) {
+                winGameButton.setVisible(true);
+            }
         });
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,620,500);
         primaryStage.setTitle("Sliding puzzle");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -182,7 +190,7 @@ public class Main extends Application {
         int buttonIndex = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (gridScene.getColumnIndex((Label) correctbuttonList.get(buttonIndex)) != j || gridScene.getRowIndex((Label) correctbuttonList.get(buttonIndex)) != i) {
+                if (gridScene.getColumnIndex((Label) correctButtonList.get(buttonIndex)) != j || gridScene.getRowIndex((Label) correctButtonList.get(buttonIndex)) != i) {
                     return false;
                 }
                 buttonIndex++;
