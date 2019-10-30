@@ -212,6 +212,8 @@ public class Main extends Application {
         winNewGame.setOnMouseClicked(actionEvent -> {
             shuffleNewGame();
             dialogStage.close();
+            newgamePressed = 0;
+            winGameButton.setVisible(false);
         });
 
         dialogStage.setScene(new Scene(hBox));
